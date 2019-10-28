@@ -1,0 +1,38 @@
+version: '3.1'
+services:
+
+
+  postgres:
+    image: postgres:latest
+    restart: always
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      # - postgres-data
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: septiadi
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+       - db_password
+
+  # adminer:
+  #   image: adminer
+  #   restart: always
+  #   ports:
+  #     - 8000:8080
+
+volumes: 
+  postgres-data:
+    external: true
+
+secrets:
+  db_password:
+    file: db_password.txt
+
+  #docker run --net=kafka -d -p 9092:9092 --name=kafka -e KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181 -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092 -e KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 confluentinc/cp-kafka:4.1.0
+
+
+networks:
+  bridge:
+    
